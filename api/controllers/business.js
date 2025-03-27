@@ -111,3 +111,28 @@ self.picture = async (req, res) => {
     res.status(400).send(obj);
   }
 }
+
+// Validate business ID
+self.validateBusinessId = async (req) => {
+  const businessId = req.header(process.env.BUSINESS_ID_HEADER);
+  if (!businessId) {
+    throw {
+      code: 400,
+      title: "Falta el ID del negocio",
+      detail: "El ID del negocio es obligatorio.",
+      suggestion: "Proporcione el ID del negocio en los headers de la solicitud."
+    };
+  }
+
+  const business = await IAMUserBusiness.findById(businessId).lean();
+  if (!business) {
+    throw {
+      code: 404,
+      title: "Negocio no encontrado",
+      detail: "No se encontró un negocio con el ID proporcionado",
+      suggestion: "Verifique que el ID del negocio sea correcto."
+    };
+  }
+
+  return businessId;
+};
