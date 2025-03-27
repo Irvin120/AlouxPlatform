@@ -4,6 +4,9 @@ const Service = require("../models/Service");
 const Key = require("../models/Key");
 const Contact = require("../models/Contact");
 const Payment = require("../models/Payment");
+const BusinessController = require("./business");
+const Utils = require("./utils");
+
 const path = require("path");
 
 const {
@@ -17,7 +20,9 @@ const self = module.exports;
 // Create
 self.create = async (req, res) => {
   try {
+    const businessId = await BusinessController.validateBusinessId(req);
     let client = new Client(req.body);
+    client._business = businessId;
     client.createdAt = new Date().getTime();
     client.status = "Activo";
 
@@ -25,12 +30,7 @@ self.create = async (req, res) => {
 
     res.status(201).send(create);
   } catch (error) {
-    const obj = {
-      title: "Error al crear cliente",
-      detail: error.message,
-      suggestion: "Revisa el detalle del error",
-    };
-    res.status(400).send(obj);
+    await Utils.responseError(res, error)
   }
 };
 

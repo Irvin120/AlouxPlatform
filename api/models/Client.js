@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+const { ObjectId } = require('mongodb')
 
 const clientSchema = mongoose.Schema({
+  _business: { type: ObjectId, required: true, ref: "Business" },
   name: { type: String, maxLength: 50, trim: true, required: true },
   description: { type: String, maxLength: 150, trim: true },
   taxInfo: {
