@@ -1,0 +1,3056 @@
+openapi: 3.0.0
+info:
+  title: Aloux Platform API
+  description: APIs para Plataforma Aloux
+  version: 1.0.0
+  contact:
+    name: API Aloux
+    url: https://aloux.mx
+    email: developer@aloux.mx
+servers:
+  - url: http://localhost
+    description: DEV
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ######################################## Client  ########################################
+    Client:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Arturo
+        description:
+          type: string
+          example: Arturo Desc
+        taxInfo:
+          type: object
+          properties:
+            rfc:
+              type: string
+            name:
+              type: string
+            regime:
+              type: object
+            CFDIuse:
+              type: object
+            zip:
+              type: string
+            status:
+              type: string
+        files:
+          type: object
+      required:
+        - name
+    ######################################## Project  ########################################
+    Project:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Testt
+        amount:
+          type: number
+          example: 120
+        dateStart:
+          type: number
+          example: 1694671200000
+        dateEnd:
+          type: number
+          example: 1696053600000
+        files:
+          type: object
+          properties:
+            agreementUrl:
+              type: string
+        status:
+          description: status
+          type: string
+          enum: ["Activo", "Terminado", "Cancelado"]
+          default: Activo
+        _client:
+          description: _client
+          type: string
+          format: objectId
+          example: 65aab43b8cd92528a0755634
+      required:
+        - name
+        - amount
+        - status
+    ######################################## Service  ########################################
+    Service:
+      type: object
+      properties:
+        concept:
+          type: string
+          example: Testt
+        amount:
+          type: number
+          example: 120
+        membershipType:
+          description: membresia
+          type: string
+          enum: ["Anual", "Mensual"]
+          default: Anual
+        satCode:
+          type: object
+          properties:
+            key:
+              type: number
+              example: 26111703
+            description:
+              type: string
+              example: Baterías para vehículos
+        satUnit:
+          type: object
+          properties:
+            key:
+              type: string
+              example: H87
+            description:
+              type: string
+              example: pieza
+        dateStart:
+          type: number
+          example: 1694671200000
+        cutoffDate:
+          type: number
+          example: 1696053600000
+        files:
+          type: object
+          properties:
+            agreementUrl:
+              type: string
+        status:
+          description: status
+          type: string
+          enum: ["Activo", "Suspendido", "Terminado"]
+          default: Activo
+        _client:
+          description: _client
+          type: string
+          format: objectId
+          example: 65aab43b8cd92528a0755634
+      required:
+        - amount
+        - status
+        - membershipType
+    ######################################## Key  ########################################
+    Key:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Testt
+        key:
+          type: string
+          example: $2a$05$htIHGkhJrwGPYMqkgyDcaeXLFJyY8rKett2gEkhs6Ir/WoP90lvJW
+        origins:
+          type: object
+          properties:
+            origin:
+              type: string
+              example: http://localhost:2000
+        _api:
+          description: _api
+          type: string
+          format: objectId
+          example: 64f15bd15d53677049546fbb
+        config:
+          type: object
+          properties:
+            postbox:
+              type: object
+              properties:
+                toAddress:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                source:
+                  type: string
+                subjectNotification:
+                  type: string
+                subjectContact:
+                  type: string
+                htmlNotification:
+                  type: string
+                htmlContact:
+                  type: string
+        _client:
+          description: _client
+          type: string
+          format: objectId
+          example: 65aab43b8cd92528a0755634
+      required:
+        - name
+        - key
+    ####Payment pendiente
+    ######################################## Payment  ########################################
+    Payment:
+      type: object
+      properties:
+        concept:
+          type: string
+          example: Testt
+        satProduct:
+          type: object
+        satUnit:
+          type: object
+          properties:
+            key:
+              type: string
+              example: E48
+            description:
+              type: string
+              example: Unidad de servicio
+        satPaymentMethod:
+          type: object
+        amount:
+          type: number
+          example: 5000
+        dateLimit:
+          type: number
+          example: 1677304800000
+        status:
+          description: status
+          type: string
+          enum: ["Por pagar", "Pagado"]
+          default: Por pagar
+        type:
+          description: type
+          type: string
+          enum: ["Proyecto", "Servicio"]
+        _project:
+          description: _project
+          type: string
+          format: objectId
+          example: 65015a9553ae0153780fe036
+        _service:
+          description: _service
+          type: string
+          format: objectId
+          example: 65ab0f139f3864204cbdd30a
+        _client:
+          description: _client
+          type: string
+          format: objectId
+          example: 641baa2758faa2436f55d064
+        invoiceStatus:
+          description: status
+          type: string
+          enum: ["No facturado", "Facturado", "Cancelada"]
+          default: No facturado
+        invoiceUrl:
+          description: invoiceUrl
+          type: string
+          example: https://cellcom-test.s3.amazonaws.com
+      required:
+        - concept
+        - amount
+        - dateLimit
+        - type
+    ######################################## Contact  ########################################
+    Contact:
+      type: object
+      properties:
+        name:
+          description: name
+          type: string
+          example: Carlos
+        lastName:
+          description: lastName
+          type: string
+          example: Torres
+        phone:
+          description: phone
+          type: number
+          example: 2491562985
+        email:
+          description: email
+          type: string
+          example: carlost@gmail.com
+        _client:
+          description: _client
+          type: string
+          format: objectId
+          example: 65aab43b8cd92528a0755634
+      required:
+        - name
+        - lastName
+        - phone
+        - email
+    ####Log   pendiente
+    ######################################## Log  ########################################
+    Log:
+      type: object
+      properties:
+        name:
+          description: name
+          type: string
+          example: Log de prueba
+        key:
+          description: _key
+          type: string
+          format: objectId
+          example: 65aab43b8cd92528a0755634
+    ######################################## Api  ########################################
+    Api:
+      type: object
+      properties:
+        name:
+          description: name
+          type: string
+          enum: ["sms", "email"]
+          example: email
+        price:
+          description: price
+          type: number
+          example: 0.02
+        api:
+          description: api
+          type: string
+          example: POST /email
+      required:
+        - name
+        - price
+        - api
+paths:
+  ######################################## Client ########################################
+  /client:
+    post:
+      summary: Crea un cliente.
+      tags:
+        - Client
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Client"
+      responses:
+        "201": # status code
+          description: A JSON array of clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    get:
+      summary: Obtiene los clientes.
+      tags:
+        - Client
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a clients
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /client/count/all:
+    get:
+      summary: Obtiene el numero de clientes.
+      tags:
+        - Client
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a clients
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /client/{CLIENT_ID}/status:
+    put:
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: id de un cliente
+          required: true
+          schema:
+            type: string
+      tags:
+        - Client
+      summary: Actualiza el status del cliente
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                status:
+                  type: string
+                  example: Inactivo
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+  /client/{CLIENT_ID}:
+    get:
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: id de un cliente
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Client
+      summary: Obtiene el detalle de un cliente
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: id de un cliente
+          required: true
+          schema:
+            type: string
+      tags:
+        - Client
+      summary: Actualiza uno o varios campos de un cliente
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Client"
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: id del cliente
+          required: true
+          schema:
+            type: string
+      tags:
+        - Client
+      summary: Eliminar un cliente
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /client/{CLIENT_ID}/files:
+    patch:
+      tags:
+        - Client
+      security:
+        - bearerAuth: []
+      summary: Actualiza documentos del cliente
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: ID de cliente
+          required: true
+          example: 65aab43b8cd92528a0755634
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                imgUrl:
+                  type: string
+                  format: binary
+                llcUrl:
+                  type: string
+                  format: binary
+                satUrl:
+                  type: string
+                  format: binary
+                ineFrontUrl:
+                  type: string
+                  format: binary
+                ineUrl:
+                  type: string
+                  format: binary
+      responses:
+        "202":
+          description: Return Object Event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /client/{CLIENT_ID}/contact:
+    get:
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: id de un cliente
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Client
+      summary: Obtiene los contactos de un cliente
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /client/{CLIENT_ID}/project:
+    get:
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: id de un cliente
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Client
+      summary: Obtiene los proyectos de un cliente
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /client/{CLIENT_ID}/service:
+    get:
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: id de un cliente
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Client
+      summary: Obtiene los servicios de un cliente
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /client/{CLIENT_ID}/key:
+    get:
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: id de un cliente
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Client
+      summary: Obtiene las llaves de un cliente
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /client/{CLIENT_ID}/payment:
+    get:
+      parameters:
+        - name: CLIENT_ID
+          in: path
+          description: id de un cliente
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Client
+      summary: Obtiene los pagos de un cliente
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  ######################################## Project ########################################
+  /project:
+    post:
+      summary: Crea un proyecto.
+      tags:
+        - Project
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        "201": # status code
+          description: A JSON array of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    get:
+      summary: Obtiene los proyectos.
+      tags:
+        - Project
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of projects
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /project/count:
+    get:
+      summary: Obtiene el numero de proyectos.
+      tags:
+        - Project
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a projects
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /project/{PROJECT_ID}:
+    get:
+      parameters:
+        - name: PROJECT_ID
+          in: path
+          description: id de un proyecto
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Project
+      summary: Obtiene el detalle de un proyecto
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: PROJECT_ID
+          in: path
+          description: id de un proyecto
+          required: true
+          schema:
+            type: string
+      tags:
+        - Project
+      summary: Actualiza uno o varios campos de un proyecto
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: PROJECT_ID
+          in: path
+          description: id del proyecto
+          required: true
+          schema:
+            type: string
+      tags:
+        - Project
+      summary: Eliminar un proyecto
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /project/{PROJECT_ID}/payment:
+    get:
+      parameters:
+        - name: PROJECT_ID
+          in: path
+          description: id de un proyecto
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Project
+      summary: Obtiene los pagos de un proyecto
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /project/{PROJECT_ID}/file:
+    patch:
+      tags:
+        - Project
+      security:
+        - bearerAuth: []
+      summary: Actualiza documento del proyecto
+      parameters:
+        - name: PROJECT_ID
+          in: path
+          description: ID de cliente
+          required: true
+          example: 65aab43b8cd92528a0755634
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                agreement:
+                  type: string
+                  format: binary
+      responses:
+        "202":
+          description: Return Object Event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  ######################################## Service ########################################
+  /service:
+    post:
+      summary: Crea un servicio.
+      tags:
+        - Service
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Service"
+      responses:
+        "201": # status code
+          description: A JSON array of services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    get:
+      summary: Obtiene los servicios.
+      tags:
+        - Service
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of services
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /service/count:
+    get:
+      summary: Obtiene el numero de servicios.
+      tags:
+        - Service
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a services
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /service/{SERVICE_ID}:
+    get:
+      parameters:
+        - name: SERVICE_ID
+          in: path
+          description: id de un servicio
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Service
+      summary: Obtiene el detalle de un servicio
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: SERVICE_ID
+          in: path
+          description: id de un servicio
+          required: true
+          schema:
+            type: string
+      tags:
+        - Service
+      summary: Actualiza uno o varios campos de un servicio
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Service"
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: SERVICE_ID
+          in: path
+          description: id del servicio
+          required: true
+          schema:
+            type: string
+      tags:
+        - Service
+      summary: Eliminar un servicio
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /service/{SERVICE_ID}/payment:
+    get:
+      parameters:
+        - name: SERVICE_ID
+          in: path
+          description: id de un servicio
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Service
+      summary: Obtiene pagos de un servicio
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /service/{SERVICE_ID}/file:
+    patch:
+      tags:
+        - Service
+      security:
+        - bearerAuth: []
+      summary: Actualiza documento del servicio
+      parameters:
+        - name: SERVICE_ID
+          in: path
+          description: ID de servicio
+          required: true
+          example: 65aab43b8cd92528a0755634
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                agreement:
+                  type: string
+                  format: binary
+      responses:
+        "202":
+          description: Return Object Event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  ######################################## Key ########################################
+  /key:
+    post:
+      summary: Crea una key.
+      tags:
+        - Key
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Key"
+      responses:
+        "201": # status code
+          description: A JSON array of keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    get:
+      summary: Obtiene las keys.
+      tags:
+        - Key
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of keys
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /key/count:
+    get:
+      summary: Obtiene el numero de keys.
+      tags:
+        - Key
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a keys
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /key/{KEY_ID}:
+    get:
+      parameters:
+        - name: KEY_ID
+          in: path
+          description: id de una key
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Key
+      summary: Obtiene el detalle de una key
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: KEY_ID
+          in: path
+          description: id de una key
+          required: true
+          schema:
+            type: string
+      tags:
+        - Key
+      summary: Actualiza uno o varios campos de una key
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Key"
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: KEY_ID
+          in: path
+          description: id de la key
+          required: true
+          schema:
+            type: string
+      tags:
+        - Key
+      summary: Eliminar una key
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+
+  ######################################## Payment ########################################
+  /payment:
+    post:
+      summary: Crea un pago.
+      tags:
+        - Payment
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Payment"
+      responses:
+        "201": # status code
+          description: A JSON array of payments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    get:
+      summary: Obtiene los pagos.
+      tags:
+        - Payment
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of payments
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /payment/count:
+    get:
+      summary: Obtiene el numero de pagos.
+      tags:
+        - Payment
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a payments
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /payment/count/payable:
+    get:
+      summary: Obtiene el numero de pagos pagados.
+      tags:
+        - Payment
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a payments
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /payment/count/expired:
+    get:
+      summary: Obtiene el numero de pagos no pagados.
+      tags:
+        - Payment
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a payments
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /payment/{PAYMENT_ID}/status:
+    put:
+      parameters:
+        - name: PAYMENT_ID
+          in: path
+          description: id de un pago
+          required: true
+          schema:
+            type: string
+      tags:
+        - Payment
+      summary: Actualiza el status del pago
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                status:
+                  type: string
+                  example: Pagado
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+  /payment/{PAYMENT_ID}:
+    get:
+      parameters:
+        - name: PAYMENT_ID
+          in: path
+          description: id de un pago
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Payment
+      summary: Obtiene el detalle de un pago
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: PAYMENT_ID
+          in: path
+          description: id de un pago
+          required: true
+          schema:
+            type: string
+      tags:
+        - Payment
+      summary: Actualiza uno o varios campos de un pago
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Payment"
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: PAYMENT_ID
+          in: path
+          description: id de pago
+          required: true
+          schema:
+            type: string
+      tags:
+        - Payment
+      summary: Eliminar un pago
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+
+  ######################################## Contact ########################################
+  /contact:
+    post:
+      summary: Crea un contacto.
+      tags:
+        - Contact
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Contact"
+      responses:
+        "201": # status code
+          description: A JSON array of contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    get:
+      summary: Obtiene los contactos.
+      tags:
+        - Contact
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of contacts
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /contact/{CONTACT_ID}:
+    get:
+      parameters:
+        - name: CONTACT_ID
+          in: path
+          description: id de un contacto
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Contact
+      summary: Obtiene el detalle de un contacto
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: CONTACT_ID
+          in: path
+          description: id de un contacto
+          required: true
+          schema:
+            type: string
+      tags:
+        - Contact
+      summary: Actualiza uno o varios campos de un contacto
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Contact"
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: CONTACT_ID
+          in: path
+          description: id del contacto
+          required: true
+          schema:
+            type: string
+      tags:
+        - Contact
+      summary: Eliminar un contacto
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+
+  ######################################## Log ########################################
+  /log:
+    post:
+      summary: Crea un log.
+      tags:
+        - Log
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Log"
+      responses:
+        "201": # status code
+          description: A JSON array of logs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    get:
+      summary: Obtiene los logs.
+      tags:
+        - Log
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of logs
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /log/count:
+    get:
+      summary: Obtiene el numero de logs.
+      tags:
+        - Log
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a logs
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /log/{LOG_ID}:
+    get:
+      parameters:
+        - name: LOG_ID
+          in: path
+          description: id de un log
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Log
+      summary: Obtiene el detalle de un log
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: LOG_ID
+          in: path
+          description: id de un log
+          required: true
+          schema:
+            type: string
+      tags:
+        - Log
+      summary: Actualiza uno o varios campos de un log
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Log"
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: LOG_ID
+          in: path
+          description: id del log
+          required: true
+          schema:
+            type: string
+      tags:
+        - Log
+      summary: Eliminar un log
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+
+  ######################################## Api ########################################
+  /cat/api:
+    post:
+      summary: Crea una api.
+      tags:
+        - Api
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Api"
+      responses:
+        "201": # status code
+          description: A JSON array of apis
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    get:
+      summary: Obtiene las apis.
+      tags:
+        - Api
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of apis
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /cat/api/{API_ID}:
+    get:
+      parameters:
+        - name: API_ID
+          in: path
+          description: id de una api
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Api
+      summary: Obtiene el detalle de una api
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: API_ID
+          in: path
+          description: id de una api
+          required: true
+          schema:
+            type: string
+      tags:
+        - Api
+      summary: Actualiza uno o varios campos de una api
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Api"
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: API_ID
+          in: path
+          description: id del api
+          required: true
+          schema:
+            type: string
+      tags:
+        - Api
+      summary: Eliminar una api
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+
+  ######################################## sms ########################################
+  /sms:
+    post:
+      summary: Crea un mensaje.
+      tags:
+        - Sms
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                PhoneNumber:
+                  type: string
+                  description: Número de teléfono
+                Message:
+                  type: string
+                  description: Mensaje
+
+      responses:
+        "201": # status code
+          description: A JSON array of sms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  ######################################## email ########################################
+  /email:
+    post:
+      summary: Crea un email.
+      tags:
+        - Email
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Destination:
+                  description: Destination
+                  type: object
+                  properties:
+                    ToAddresses:
+                      description: ToAddresses
+                      type: array
+                      items:
+                        type: string
+                Message:
+                  description: Message
+                  type: object
+                  properties:
+                    Body:
+                      description: Body
+                      type: object
+                      properties:
+                        Html:
+                          description: Html
+                          type: object
+                          properties:
+                            Charset:
+                              type: string
+                              enum: ["UTF-8"]
+                            Data:
+                              type: string
+                    Subject:
+                      description: Subject
+                      type: object
+                      properties:
+                        Charset:
+                          type: string
+                          enum: ["UTF-8"]
+                        Data:
+                          type: string
+                Source:
+                  description: Source
+                  type: string
+      responses:
+        "201": # status code
+          description: A JSON array of sms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  ######################################## Facturapi ########################################
+  /validate/rfc:
+    post:
+      tags:
+        - Facturapi
+      summary: Validar RFC en la lista de EFOS
+      description: Al aparecer en esta lista, el RFC es o fue sospechoso de incurrir en simulación de operaciones fiscales (empresas factureras).
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                rfc:
+                  type: string
+                  example: BBA830831LJ2
+              required:
+                - rfc
+      responses:
+        "200":
+          description: Para is_valid en true indica que el RFC no tiene asuntos por resolver  y está libre de problemas; y lo contrario para false
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Error en los parámetros de la petición
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /cat/product:
+    post:
+      tags:
+        - Facturapi
+      summary: Obtener catálogo de Productos/Servicios del SAT
+      description: Obtener catálogo de Productos/Servicios del SAT
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                product:
+                  type: string
+                  example: batería
+                page:
+                  type: integer
+                  example: 2
+      responses:
+        "200":
+          description: Return Array[Objects]
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /cat/unit:
+    post:
+      tags:
+        - Facturapi
+      summary: Obtener catálogo de unidades de medida del SAT
+      description: Obtener catálogo de unidades de medida del SAT
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                unit:
+                  type: string
+                  example: pulgada
+                page:
+                  type: integer
+                  example: 1
+                limit:
+                  type: integer
+                  example: 100
+              required:
+                - unit
+      responses:
+        "200":
+          description: Return Array[Objects]
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+
+  #INVOICE FACTURAPI
+  /invoice/api/{payment_id}:
+    post:
+      tags:
+        - Facturapi
+      summary: Crear una factura con facturapi
+      description: Crear una factura con facturapi
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: payment_id
+          in: path
+          description: ID de pago
+          required: true
+          example: 6629793c06a14b102c5bc7ce
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                payment_method:
+                  type: string
+                  example: PUE
+                  enum: [PPD, PUE]
+                payment_form:
+                  type: string
+                  example: 01
+              required:
+                - payment_method
+                - payment_form
+      responses:
+        "201":
+          description: Return Object
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /invoice/api/{invoice_id}:
+    get:
+      tags:
+        - Facturapi
+      summary: Obtener detalle de una factura de facturapi
+      description: Obtener detalle de una factura de facturapi
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: invoice_id
+          in: path
+          description: ID de factura de nuestro lado
+          required: true
+          example: 6629a4379ea4122954ecb7bf
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Return Object Invoice
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /invoice/api/cancel/{invoice_id}:
+    patch:
+      tags:
+        - Facturapi
+      summary: Cancelar factura
+      description: Cancelar factura
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: invoice_id
+          in: path
+          description: ID de factura
+          required: true
+          example: 64710a9554727122f454bfc9
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                motive:
+                  type: integer
+                  example: "02"
+                substitution:
+                  type: string
+                  example: 39c85a3f-275b-4341-b259-e8971d9f8a94
+                  description: el campo se manda cuando el motivo es 01
+              required:
+                - motive
+      responses:
+        "200":
+          description: Return status
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /invoice/{invoice_id}/resend:
+    post:
+      tags:
+        - Facturapi
+      summary: Reenviar factura
+      description: Reenviar factura
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: invoice_id
+          in: path
+          description: ID de factura
+          required: true
+          example: 64710a9554727122f454bfc9
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                email:
+                  type: string
+                  example: "lavzca12@gmail.com"
+              required:
+                - email
+      responses:
+        "200":
+          description: Return status
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /invoice/api/{invoice_id}/cancel:
+    get:
+      tags:
+        - Facturapi
+      summary: Descarga acuses de cancelación
+      description: Descarga acuses de cancelación
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: invoice_id
+          in: path
+          description: ID de factura en facturapi
+          required: true
+          example: 64710a9554727122f454bfc9
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Return status
+          content:
+            application/json:
+              schema:
+                type: object
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  #SAT
+  /sat/catalogue/{key}:
+    get:
+      tags:
+        - SAT
+      summary: Obtener regimen de SAT
+      description: Obtener regimen de SAT
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          description: ID de CAT_SAT
+          required: true
+          schema:
+            type: string
+            enum:
+              - moral
+              - fisica
+      responses:
+        "200":
+          description: Return Array[Object]
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /invoice/api/complement/{payment_id}:
+    post:
+      tags:
+        - Complements
+      summary: Crear un complemento
+      description: Crear un complemento
+      # security:
+      #   - bearerAuth: []
+      parameters:
+        - name: payment_id
+          in: path
+          description: ID de pago
+          required: true
+          example: 6629793c06a14b102c5bc7ce
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                amount:
+                  type: number
+                  example: 100
+                payment_form:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "04"
+                    description:
+                      type: string
+                      example: Tarjeta de crédito
+                paymentDate:
+                  type: number
+                  example: 1715580000000
+                  description: Fecha en que se recibió el pago. Sólo es necesario incluirla si el pago se efectuó en una fecha anterior a la emisión de este comprobante. No se permiten fechas futuras.
+                lastBalance:
+                  type: number
+                  example: 12
+                  description: Cantidad que estaba pendiente por pagar antes de recibir este pago.
+              required:
+                - amount
+                - payment_form
+      responses:
+        "201":
+          description: Return Object
+        "400":
+          description: Bad request
+  /sat/catalogue:
+    get:
+      tags:
+        - SAT
+      summary: Obtener regimen de SAT sin parametro
+      description: Obtener regimen de SAT
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Return Array[Object]
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /cfdi/catalogue:
+    get:
+      tags:
+        - SAT
+      summary: Obtener CFDI
+      description: Obtener CFDI
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Return Array [Object]
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  ######################################## Categorie ########################################
+  /service/categorie:
+    post:
+      summary: Crea una categoria de servicio.
+      tags:
+        - Categorie
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  description: name
+                  type: string
+                  example: Desarrollo web
+      responses:
+        "201": # status code
+          description: A JSON array of services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /service/categorie/retrieve:
+    get:
+      summary: Obtiene las subcategorias.
+      tags:
+        - Categorie
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of categories
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /service/categorie/{CATEGORIE_ID}:
+    get:
+      parameters:
+        - name: CATEGORIE_ID
+          in: path
+          description: id de una categoria de servicio
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Categorie
+      summary: Obtiene el detalle de una categoria de servicio
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: CATEGORIE_ID
+          in: path
+          description: id de una categoria de servicio
+          required: true
+          schema:
+            type: string
+      tags:
+        - Categorie
+      summary: Actualiza uno o varios campos de una categoria de un servicio
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  description: name
+                  type: string
+                  example: Desarrollo web Prueba update
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: CATEGORIE_ID
+          in: path
+          description: id de una categoria de servicio
+          required: true
+          schema:
+            type: string
+      tags:
+        - Categorie
+      summary: Eliminar una categoria de servicio
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  ######################################## SubCategorie ########################################
+  /service/subcategorie:
+    post:
+      summary: Crea una categoria de servicio.
+      tags:
+        - SubCategorie
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  description: name
+                  type: string
+                  example: Maquetado web
+                _categorie:
+                  description: _categorie
+                  type: string
+                  format: objectId
+                  example: 66356b57c1fcbe46e4ff65dc
+      responses:
+        "201": # status code
+          description: A JSON array of services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /service/subcategorie/retrieve:
+    get:
+      summary: Obtiene las subcategorias.
+      tags:
+        - SubCategorie
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of subcategories
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /service/subcategorie/{SUBCATEGORIE_ID}:
+    get:
+      parameters:
+        - name: SUBCATEGORIE_ID
+          in: path
+          description: id de una subcategoria
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - SubCategorie
+      summary: Obtiene el detalle de una subcategoria
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: SUBCATEGORIE_ID
+          in: path
+          description: id de una subcategoria
+          required: true
+          schema:
+            type: string
+      tags:
+        - SubCategorie
+      summary: Actualiza uno o varios campos de una subcategoria
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  description: name
+                  type: string
+                  example: Desarrollo web Prueba update
+                _categorie:
+                  description: _categorie
+                  type: string
+                  format: objectId
+                  example: 66356b57c1fcbe46e4ff65dc
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: SUBCATEGORIE_ID
+          in: path
+          description: id de una subcategoria
+          required: true
+          schema:
+            type: string
+      tags:
+        - SubCategorie
+      summary: Eliminar una subcategoria
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  ######################################## ServiceSubCategorie ########################################
+  /subcategorie/service:
+    post:
+      summary: Crea un servicio de subcategoria.
+      tags:
+        - ServiceSubCategorie
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                description:
+                  description: description
+                  type: string
+                  example: Maquetado web
+                imgUrl:
+                  description: imgUrl
+                  type: string
+                  format: binary
+                  example: string
+                _subcategorie:
+                  description: _subcategorie
+                  type: string
+                  format: objectId
+                  example: 66369b4904d7de1d30882040
+      responses:
+        "201": # status code
+          description: A JSON array of services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /subcategorie/service/retrieve:
+    get:
+      summary: Obtiene los servicios de subcategorias.
+      tags:
+        - ServiceSubCategorie
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of subcategories
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /subcategorie/service/{SERVICE_ID}:
+    get:
+      parameters:
+        - name: SERVICE_ID
+          in: path
+          description: id de un servicio
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - ServiceSubCategorie
+      summary: Obtiene el detalle de un servicio
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    patch:
+      parameters:
+        - name: SERVICE_ID
+          in: path
+          description: id de un servicio
+          required: true
+          schema:
+            type: string
+      tags:
+        - ServiceSubCategorie
+      summary: Actualiza uno o varios campos de un servicio
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                description:
+                  description: description
+                  type: string
+                  example: Maquetado web prueba update
+                imgUrl:
+                  description: imgUrl
+                  type: string
+                  format: binary
+                  example: string
+                _subcategorie:
+                  description: _subcategorie
+                  type: string
+                  format: objectId
+                  example: 66369b4904d7de1d30882040
+      responses:
+        "202":
+          description: accept
+
+        "400":
+          description: bad request
+    delete:
+      parameters:
+        - name: SERVICE_ID
+          in: path
+          description: id de un servicio
+          required: true
+          schema:
+            type: string
+      tags:
+        - ServiceSubCategorie
+      summary: Eliminar un servicio
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /subcategorie/service/{SERVICE_ID}/file:
+    post:
+      tags:
+        - ServiceSubCategorie
+      security:
+        - bearerAuth: []
+      summary: Crea o actualiza la foto del servicio
+      description: Crea o actualiza la foto del servicio
+      parameters:
+        - name: SERVICE_ID
+          in: path
+          description: ID de servicio
+          required: true
+          example: 6636c64ec087fe331c9d0b62
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                picture:
+                  type: string
+                  format: binary
+      responses:
+        "202":
+          description: Return Object Event
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /notification:
+    get:
+      summary: Obtiene todas las notificaciones.
+      tags:
+        - Notification
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a clients
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /notification/last:
+    get:
+      summary: Obtiene últimas 5 notificaciones.
+      tags:
+        - Notification
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object of a clients
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /notification/{NOTIFICATION_ID}/seen:
+    patch:
+      summary: Cambia estado de una notificación
+      tags:
+        - Notification
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: NOTIFICATION_ID
+          in: path
+          description: ID de notificación
+          required: true
+          example: 6636c64ec087fe331c9d0b62
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                seen:
+                  type: boolean
+      responses:
+        "200": # status code
+          description: A JSON object of a clients
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /schedule/annual:
+    get:
+      summary: Generar pagos anual (Pruebas)
+      tags:
+        - Schedule
+      responses:
+        "200": # status code
+          description: A JSON object of a clients
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /schedule/month:
+    get:
+      summary: Generar pagos mensual (Pruebas)
+      tags:
+        - Schedule
+      responses:
+        "200": # status code
+          description: A JSON object of a clients
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /summary:
+    get:
+      summary: Obtiene contadores
+      tags:
+        - Summary
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /graphics:
+    post:
+      summary: Obtiene datos para gráfico
+      tags:
+        - Graphics
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                year:
+                  type: number
+                  example: 2024
+      responses:
+        "200": # status code
+          description: A JSON object
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /campaign:
+    post:
+      summary: Obtiene datos para gráfico
+      tags:
+        - CAMPAÑA DE CORREO PERSONALIZADA
+      # security:
+      #   - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  example: Campaña de prueba
+                emailTitle:
+                  type: string
+                  example: Asunto de prueba
+                segmentation:
+                  type: array
+                  items:
+                    type: string
+                    example: lavzca12@gmail.com 
+                emailSender:
+                  type: string
+                  example: arturo.vazquez@aloux.mx
+      responses:
+        "200": # status code
+          description: A JSON object
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /business:
+    post:
+      summary: Crear un negocio
+      tags:
+        - Business
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  example: Negocio Inicial
+                data:
+                  type: object
+                  properties:
+                    taxInfo:
+                      type: object
+                      properties:
+                        type: 
+                          type: string
+                        rfc: 
+                          type: string
+                        name:
+                          type: string
+                        regime:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            description:    
+                              type: string
+                        CFDIuse:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            description:    
+                              type: string
+                        zip:
+                          type: string
+                        status:
+                          type: string
+                        facturapiKey:
+                          type: string
+
+      responses:
+        "200": # status code
+          description: A JSON object
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /business/retrieve:
+    get:
+      summary: Obtener negocios
+      tags:
+        - Business
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON object
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /business/{BUSINESS_ID}:
+    get:
+      tags:
+        - Business
+      security:
+        - bearerAuth: []
+      summary: Obtiene negocio
+      parameters:
+        - name: BUSINESS_ID
+          in: path
+          description: ID de negocio
+          required: true
+          example: 65aab43b8cd92528a0755634
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Return Object Business
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+    patch:
+      tags:
+        - Business
+      security:
+        - bearerAuth: []
+      summary: Actualiza negocio
+      parameters:
+        - name: BUSINESS_ID
+          in: path
+          description: ID de negocio
+          required: true
+          example: 65aab43b8cd92528a0755634
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Negocio Inicial
+                data:
+                  type: object
+                  properties:
+                    taxInfo:
+                      type: object
+                      properties:
+                        type: 
+                          type: string
+                        rfc: 
+                          type: string
+                        name:
+                          type: string
+                        regime:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            description:    
+                              type: string
+                        CFDIuse:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            description:    
+                              type: string
+                        zip:
+                          type: string
+                        status:
+                          type: string
+                        facturapiKey:
+                          type: string
+      responses:
+        "202":
+          description: Return Object Business
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+    delete:
+      tags:
+        - Business
+      security:
+        - bearerAuth: []
+      summary: Elimina negocio
+      parameters:
+        - name: BUSINESS_ID
+          in: path
+          description: ID de negocio
+          required: true
+          example: 65aab43b8cd92528a0755634
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Return Object Business
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /business/{BUSINESS_ID}/picture:
+    patch:
+      tags:
+        - Business
+      security:
+        - bearerAuth: []
+      summary: Crea o actualiza la foto del negocio
+      parameters:
+        - name: BUSINESS_ID
+          in: path
+          description: ID de negocio
+          required: true
+          example: 6636c64ec087fe331c9d0b62
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                picture:
+                  type: string
+                  format: binary
+      responses:
+        "202":
+          description: Return Object Business
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
+  /portfolio:
+    post:
+      summary: Crea un portafolio
+      tags:
+        - Portfolio
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Protafolio 1
+                descrption:
+                  type: string
+                  example: Descripcion
+                clientName:
+                  type: string
+                  example: Artur´s
+                url:
+                  type: string
+                  example: http://localhost
+                review:
+                  type: string
+                  example: Reseña
+                services:
+                  type: array
+                  items:
+                    type: string
+                    example: 67c911b80f1c6c0508c18b83
+      responses:
+        "201": # status code
+          description: A JSON array of services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /portfolio/retrieve:
+    get:
+      tags:
+        - Portfolio
+      summary: Obtiene todos los portafolios
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+  /portfolio/{PORTFOLIO_ID}:
+    get:
+      parameters:
+        - name: PORTFOLIO_ID
+          in: path
+          description: id de un servicio
+          required: true
+          schema:
+            type: string
+            format: objectId
+      tags:
+        - Portfolio
+      summary: Obtiene el detalle de un portafolio
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: ok
+        "400":
+          description: bad request
+    put:
+      summary: Actualiza un portafolio
+      tags:
+        - Portfolio
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Protafolio 1
+                descrption:
+                  type: string
+                  example: Descripcion
+                clientName:
+                  type: string
+                  example: Artur´s
+                url:
+                  type: string
+                  example: http://localhost
+                review:
+                  type: string
+                  example: Reseña
+                services:
+                  type: array
+                  items:
+                    type: string
+                    example: 67c911b80f1c6c0508c18b83
+      responses:
+        "202": # status code
+          description: A JSON array of services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+    delete:
+      summary: Actualiza un portafolio
+      tags:
+        - Portfolio
+      security:
+        - bearerAuth: []
+      responses:
+        "200": # status code
+          description: A JSON array of services
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  # /portfolio/{PORTFOLIO_ID}/picture: 

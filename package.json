@@ -1,0 +1,37 @@
+{
+  "name": "api.aloux.platform",
+  "version": "0.0.1",
+  "description": "Proyecto plataforma de aloux",
+  "main": "server.js",
+  "scripts": {
+    "start": "env-cmd -f ./.env nodemon server.js"
+  },
+  "author": "Aloux",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.293.0",
+    "@aws-sdk/client-ses": "^3.293.0",
+    "@aws-sdk/client-sns": "^3.306.0",
+    "aloux-iam": "^0.0.96",
+    "axios": "^1.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "~1.19.0",
+    "express": "~4.17.1",
+    "express-fileupload": "^1.1.6",
+    "facturapi": "^3.4.0",
+    "jsonwebtoken": "^9.0.0",
+    "method-override": "^3.0.0",
+    "mongodb": "^3.5.11",
+    "mongoose": "^5.13.3",
+    "node-schedule": "^1.3.2",
+    "swagger-ui-express": "^4.6.2",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "env-cmd": "^9.0.3",
+    "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": "v18.13.0"
+  }
+}
