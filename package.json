@@ -1,5 +1,5 @@
 {
-  "name": "api.aloux.platform",
+  "name": "api.aloux.platform.ABS",
   "version": "0.0.1",
   "description": "Proyecto plataforma de aloux",
   "main": "server.js",

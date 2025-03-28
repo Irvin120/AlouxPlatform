@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Aloux Platform API
-  description: APIs para Plataforma Aloux
+  title: Aloux Platform ABS API
+  description: APIs para Plataforma ABS Aloux
   version: 1.0.0
   contact:
     name: API Aloux
@@ -328,6 +328,14 @@ paths:
         - Client
       security:
         - bearerAuth: []
+      parameters:
+        - name: Businessid
+          in: header
+          description: ID del negocio.
+          required: true
+          schema:
+            type: string
+            example: "67e6cbd9d2fba50e3488e134"
       requestBody:
         content:
           application/json:
@@ -2661,7 +2669,7 @@ paths:
                   type: array
                   items:
                     type: string
-                    example: lavzca12@gmail.com 
+                    example: lavzca12@gmail.com
                 emailSender:
                   type: string
                   example: arturo.vazquez@aloux.mx
@@ -2695,9 +2703,9 @@ paths:
                     taxInfo:
                       type: object
                       properties:
-                        type: 
+                        type:
                           type: string
-                        rfc: 
+                        rfc:
                           type: string
                         name:
                           type: string
@@ -2706,14 +2714,14 @@ paths:
                           properties:
                             id:
                               type: string
-                            description:    
+                            description:
                               type: string
                         CFDIuse:
                           type: object
                           properties:
                             id:
                               type: string
-                            description:    
+                            description:
                               type: string
                         zip:
                           type: string
@@ -2808,9 +2816,9 @@ paths:
                     taxInfo:
                       type: object
                       properties:
-                        type: 
+                        type:
                           type: string
-                        rfc: 
+                        rfc:
                           type: string
                         name:
                           type: string
@@ -2819,14 +2827,14 @@ paths:
                           properties:
                             id:
                               type: string
-                            description:    
+                            description:
                               type: string
                         CFDIuse:
                           type: object
                           properties:
                             id:
                               type: string
-                            description:    
+                            description:
                               type: string
                         zip:
                           type: string
@@ -3053,4 +3061,4 @@ paths:
                 type: array
                 items:
                   type: string
-  # /portfolio/{PORTFOLIO_ID}/picture: 
+  # /portfolio/{PORTFOLIO_ID}/picture:

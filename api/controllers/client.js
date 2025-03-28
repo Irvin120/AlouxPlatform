@@ -30,39 +30,33 @@ self.create = async (req, res) => {
 
     res.status(201).send(create);
   } catch (error) {
-    await Utils.responseError(res, error)
+    await Utils.responseError(res, error);
   }
 };
 
 // Retrieve
 self.retrieve = async (req, res) => {
   try {
-    const retrieve = await Client.find({}).sort({ _id: -1 });
+    const businessId = await BusinessController.validateBusinessId(req);
+    const retrieve = await Client.find({ _business: businessId })
+    .lean()
+    .sort({ _id: -1 });
 
     res.status(200).send(retrieve);
   } catch (error) {
-    const obj = {
-      title: "Error al obtener los cliente",
-      detail: error.message,
-      suggestion: "Revisa el detalle del error",
-    };
-    res.status(400).send(obj);
+    await Utils.responseError(res, error);
   }
 };
 
 // Count
 self.count = async (req, res) => {
   try {
-    const response = await Client.countDocuments();
+    const businessId = await BusinessController.validateBusinessId(req);
+    const response = await Client.countDocuments({ _business: businessId });
 
     res.status(200).send({ count: response });
   } catch (error) {
-    const obj = {
-      title: "Error al contar los cliente",
-      detail: error.message,
-      suggestion: "Revisa el detalle del error",
-    };
-    res.status(400).send(obj);
+    await Utils.responseError(res, error);
   }
 };
 
@@ -77,12 +71,7 @@ self.detail = async (req, res) => {
 
     res.status(200).send(detail);
   } catch (error) {
-    const obj = {
-      title: "Error al obtener el detalle del cliente",
-      detail: error.message,
-      suggestion: "Revisa el detalle del error",
-    };
-    res.status(400).send(obj);
+    await Utils.responseError(res, error);
   }
 };
 
