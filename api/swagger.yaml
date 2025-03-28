@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: Aloux Platform ABS API
-  description: APIs para Plataforma ABS Aloux
+  title: Aloux Abs API
+  description: APIs para Abs Aloux
   version: 1.0.0
   contact:
     name: API Aloux

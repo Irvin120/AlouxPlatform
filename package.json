@@ -1,7 +1,7 @@
 {
-  "name": "api.aloux.abs.platform",
+  "name": "api.aloux.abs",
   "version": "0.0.1",
-  "description": "Proyecto plataforma abs de aloux",
+  "description": "Proyecto abs",
   "main": "server.js",
   "scripts": {
     "start": "env-cmd -f ./.env nodemon server.js"

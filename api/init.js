@@ -59,6 +59,6 @@ if (process.env.DEBUG === 'true') {
 
 app.listen(process.env.PORT, () => {
     console.log(`\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -`);
-    console.log(` |  API REST [api.abs.platform.aloux] - http://localhost:${process.env.PORT}/  | `);
+    console.log(` |  API REST [api.abs.aloux] - http://localhost:${process.env.PORT}/  | `);
     console.log(` - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n`);
 })
