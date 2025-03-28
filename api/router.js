@@ -49,9 +49,9 @@ router.get("/client/:CLIENT_ID/key", IAMAuth, client.key);
 router.get("/client/:CLIENT_ID/payment", IAMAuth, client.payment);
 
 // Project
-router.post("/project", IAMAuth, project.create);
-router.get("/project", IAMAuth, project.retrieve);
-router.get("/project/count", IAMAuth, project.count);
+router.post("/project", IAMAuth, project.create); // Validated
+router.get("/project", IAMAuth, project.retrieve); // Validated
+router.get("/project/count", IAMAuth, project.count); // Validated
 router.get("/project/:PROJECT_ID", IAMAuth, project.detail);
 router.patch("/project/:PROJECT_ID", IAMAuth, project.update);
 router.delete("/project/:PROJECT_ID", IAMAuth, project.delete);
