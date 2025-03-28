@@ -1,4 +1,7 @@
 const Payment = require("../models/Payment");
+const Payment = require("../models/Payment");
+const BusinessController = require("./business");
+const Utils = require("./utils");
 const self = module.exports;
 
 self.summary = async (req, res) => {
@@ -17,7 +20,7 @@ self.summary = async (req, res) => {
 
     res.status(200).send(payments);
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    await Utils.responseError(res, error);
   }
 };
 
