@@ -34,9 +34,9 @@ const portfolio = require("./controllers/portfolio");
 // Endponts
 
 // Client
-router.post("/client", IAMAuth, client.create);
-router.get("/client", IAMAuth, client.retrieve);
-router.get("/client/count/all", IAMAuth, client.count);
+router.post("/client", IAMAuth, client.create); // Validated
+router.get("/client", IAMAuth, client.retrieve); // Validated
+router.get("/client/count/all", IAMAuth, client.count); // Validated
 router.get("/client/:CLIENT_ID", IAMAuth, client.detail);
 router.patch("/client/:CLIENT_ID", IAMAuth, client.update);
 router.put("/client/:CLIENT_ID/status", IAMAuth, client.status);

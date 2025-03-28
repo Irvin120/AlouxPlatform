@@ -356,6 +356,14 @@ paths:
         - Client
       security:
         - bearerAuth: []
+      parameters:
+        - name: Businessid
+          in: header
+          description: ID del negocio.
+          required: true
+          schema:
+            type: string
+            example: "67e6cbd9d2fba50e3488e134"
       responses:
         "200": # status code
           description: A JSON object of a clients
@@ -372,6 +380,14 @@ paths:
         - Client
       security:
         - bearerAuth: []
+      parameters:
+        - name: Businessid
+          in: header
+          description: ID del negocio.
+          required: true
+          schema:
+            type: string
+            example: "67e6cbd9d2fba50e3488e134"
       responses:
         "200": # status code
           description: A JSON object of a clients
