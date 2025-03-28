@@ -1,5 +1,4 @@
 const Payment = require("../models/Payment");
-const Payment = require("../models/Payment");
 const BusinessController = require("./business");
 const Utils = require("./utils");
 const self = module.exports;
